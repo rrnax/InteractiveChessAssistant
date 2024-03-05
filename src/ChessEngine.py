@@ -4,7 +4,7 @@ import chess.engine
 
 class ChessEngine:
     _instance = None
-    stockfish = os.path.join('stockfish', 'stockfish-windows-x86-64.exe')
+    stockfish = os.path.join('../engines/stockfish', 'stockfish-windows-x86-64.exe')
     lc0 = ''
     engine_limits = chess.engine.Limit()
     results_amount = None
