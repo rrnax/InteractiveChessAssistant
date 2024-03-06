@@ -1,7 +1,7 @@
 # import asyncio
 # import chess.engine
 import re
-from src import Game
+from src import game
 
 #
 # positon = "rnb1k1nr/ppppqppp/8/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 2 3"
@@ -21,14 +21,9 @@ from src import Game
 #
 #
 # asyncio.run(main())
-end = True
-gra = Game.Game()
+gra = game.Game()
+print(gra.chess_board)
 
-while end:
-    wej = input("Podaj ruch: ")
-    wzo = r'\b[a-h][1-8][a-h][1-8]\b'
-    if re.search(wzo, wej):
-        wynik_ruchu = gra.make_move_uci(wej)
-        print(wynik_ruchu)
-        if wynik_ruchu != 'next move' and wynik_ruchu != 'Check' and wynik_ruchu != 'not allow':
-            end = False
+while gra.state == 'play':
+    wej = input(gra.get_turn() + " podaj ruch: ")
+    gra.make_move_uci(wej)
