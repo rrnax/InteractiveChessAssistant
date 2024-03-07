@@ -21,9 +21,41 @@ from src import game
 #
 #
 # asyncio.run(main())
-gra = game.Game()
-print(gra.chess_board)
+menu1 = "1 - graj,"
+menu2 = "2 - zakończ grę,"
+menu4 = "3 - od nowa,"
+menu3 = "4 - dalej"
+print("START PROGRAMU")
+while True:
+    print(menu1 + menu2)
+    decision = input("Co chcesz zrobić? ")
+    if decision == "1":
+        print("No to gramy!")
+        while True:
+            move = input("Podaj ruch: ")
+            print(menu2 + menu4 + menu3)
+            decision2 = input()
+            if decision2 == "2":
+                print("KONCZYMY")
+                exit(0)
+            elif decision2 == "3":
+                print("OD NOWA")
+                break
+            elif decision2 == "4":
+                continue
+            else:
+                print("Zły ruch jeszcze raz!")
 
-while gra.state == 'play':
-    wej = input(gra.get_turn() + " podaj ruch: ")
-    gra.make_move_uci(wej)
+    elif decision == "2":
+        print("KONCZYMY")
+        exit(0)
+    else:
+        continue
+
+# gra = game.Game()
+# print(gra.chess_board)
+#
+#
+# while gra.state == 'play':
+#     wej = input(gra.get_turn() + " podaj ruch: ")
+#     gra.make_move_uci(wej)
