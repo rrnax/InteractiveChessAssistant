@@ -2,6 +2,7 @@ import chess
 import asyncio
 import chess_engine
 
+
 class Game:
     _instance = None
     chess_board = chess.Board()
@@ -11,7 +12,7 @@ class Game:
     state = None
     game_type = None
     user_side = None
-    engine = None
+    using_engine = None
 
     # Singleton for only one possible instance
     def __new__(cls):
@@ -19,66 +20,71 @@ class Game:
             cls._instance = object.__new__(cls)
         return cls._instance
 
-    # Can start from all valid fen notation
-    def __init__(self, fen=chess.STARTING_FEN, type="analyze", side="white"):
+    # Can start from all valid fen notation, setup necessary info
+    def setup(self, fen=chess.STARTING_FEN, game_type="analyze", user_side="white"):
         try:
-            self.game_type = type
-            print("Sat start position...")
             self.chess_board.set_fen(fen)
-            self.state = "play"
-            self.user_side = side
-            self.engine = chess_engine.ChessEngine()
-            if type == "single":
-                if side == "black":
-                    result = self.engine.engine_turn(self.chess_board)
-                    self.chess_board.push(result.move)
-                    print(self.chess_board)
         except ValueError:
-            print("Cannot convert fen, setting default starting position...")
-            self.game_type = type
             self.chess_board = chess.STARTING_FEN
-            self.state = "play"
+        self.game_type = type
+        self.state = "play"
+        self.user_side = user_side
+        self.using_engine = chess_engine.ChessEngine()
+
+    # One turn is one white and one black move
+    def game_turn(self):
+        if self.game_type == "analyze":
+            print("Ruch białych")
+            print("Ruch czarnych")
+        else:
+            if self.user_side == "black":
+                print("Ruch maszyny")
+                print("Ruch gracza")
+            elif self.user_side == "white":
+                print("Ruch gracza")
+                print("Ruch maszyny")
+
+    def close(self):
+        self.using_engine.close_engine()
 
     # All activities during move
-    def make_move_uci(self, uci):
-        try:
-            self.valid_move( chess.Move.from_uci(uci))
-            print(self.chess_board)
-            result = self.engine.engine_turn(self.chess_board)
-            self.chess_board.push(result.move)
-            print(self.chess_board)
-        except chess.InvalidMoveError:
-            print("Cannot validate move from uci string...")
-
-    # Checking legal of mov and its result
-    def valid_move(self, move):
-        if move in self.chess_board.legal_moves:
-            self.chess_board.push(move)
-            if self.chess_board.is_check():
-                self.state = "check"
-            elif self.chess_board.is_checkmate():
-                self.state = "mate"
-            elif self.chess_board.is_stalemate():
-                self.state = "draw"
-            elif self.chess_board.is_seventyfive_moves():
-                self.state = "seventy-five"
-            elif self.chess_board.is_fifty_moves():
-                self.state = "fifty"
-            elif self.chess_board.is_repetition():
-                self.state = "draw"
-            else:
-                self.state = "play"
-        else:
-            self.state = "play"
-
-    def get_turn(self):
-        if self.chess_board.turn:
-            return "white"
-        else:
-            return "black"
+    # def make_move_uci(self, uci):
+    #     try:
+    #         self.valid_move(chess.Move.from_uci(uci))
+    #         print(self.chess_board)
+    #         result = self.engine.engine_turn(self.chess_board)
+    #         self.chess_board.push(result.move)
+    #         print(self.chess_board)
+    #     except chess.InvalidMoveError:
+    #         print("Cannot validate move from uci string...")
+    #
+    # # Checking legal of mov and its result
+    # def valid_move(self, move):
+    #     if move in self.chess_board.legal_moves:
+    #         self.chess_board.push(move)
+    #         if self.chess_board.is_check():
+    #             self.state = "check"
+    #         elif self.chess_board.is_checkmate():
+    #             self.state = "mate"
+    #         elif self.chess_board.is_stalemate():
+    #             self.state = "draw"
+    #         elif self.chess_board.is_seventyfive_moves():
+    #             self.state = "seventy-five"
+    #         elif self.chess_board.is_fifty_moves():
+    #             self.state = "fifty"
+    #         elif self.chess_board.is_repetition():
+    #             self.state = "draw"
+    #         else:
+    #             self.state = "play"
+    #     else:
+    #         self.state = "play"
+    #
+    # def get_turn(self):
+    #     if self.chess_board.turn:
+    #         return "white"
+    #     else:
+    #         return "black"
 
     # def start_engine(self, board):
     #     self.engine = chess_engine.ChessEngine()
     #     if  self.game_type is "single":
-
-

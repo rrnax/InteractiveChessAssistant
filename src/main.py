@@ -1,8 +1,6 @@
 # import asyncio
 # import chess.engine
-import re
-from src import game
-
+import game
 #
 # positon = "rnb1k1nr/ppppqppp/8/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 2 3"
 #
@@ -26,17 +24,27 @@ menu2 = "2 - zakończ grę,"
 menu4 = "3 - od nowa,"
 menu3 = "4 - dalej"
 print("START PROGRAMU")
+
 while True:
     print(menu1 + menu2)
     decision = input("Co chcesz zrobić? ")
+    gra = game.Game()
     if decision == "1":
         print("No to gramy!")
+        decision3 = input("Wybierz kolor bierek 5 - biale, 6 - czarne")
+
+        if decision3 == "5":
+            gra.setup(game_type="simple", user_side="white")
+        elif decision3 == "6":
+            gra.setup(game_type="simple", user_side="black")
         while True:
             move = input("Podaj ruch: ")
             print(menu2 + menu4 + menu3)
             decision2 = input()
+            gra.game_turn()
             if decision2 == "2":
                 print("KONCZYMY")
+                gra.close()
                 exit(0)
             elif decision2 == "3":
                 print("OD NOWA")
@@ -48,6 +56,7 @@ while True:
 
     elif decision == "2":
         print("KONCZYMY")
+        gra.close()
         exit(0)
     else:
         continue
