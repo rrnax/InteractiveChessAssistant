@@ -38,10 +38,8 @@ while True:
         elif decision3 == "6":
             gra.setup(game_type="simple", user_side="black")
         while True:
-            move = input("Podaj ruch: ")
             print(menu2 + menu4 + menu3)
             decision2 = input()
-            gra.game_turn()
             if decision2 == "2":
                 print("KONCZYMY")
                 gra.close()
@@ -50,6 +48,7 @@ while True:
                 print("OD NOWA")
                 break
             elif decision2 == "4":
+                gra.game_turn()
                 continue
             else:
                 print("Zły ruch jeszcze raz!")

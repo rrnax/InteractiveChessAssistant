@@ -41,23 +41,34 @@ class Game:
                 print("Ruch maszyny")
                 print("Ruch gracza")
             elif self.user_side == "white":
-                print("Ruch gracza")
-                print("Ruch maszyny")
+                correct_move = True
+                while correct_move:
+                    move = input("Podaj ruch: ")
+                    correct_move = self.move_uci(move)
+                    if correct_move:
+                        print("Zły rucj, jeszcze raz")
+                print(self.chess_board)
+
+                move = self.using_engine.engine_move(self.chess_board)
+                self.chess_board.push(move)
+                print(self.chess_board)
 
     def close(self):
         self.using_engine.close_engine()
 
     # All activities during move
-    # def make_move_uci(self, uci):
-    #     try:
-    #         self.valid_move(chess.Move.from_uci(uci))
-    #         print(self.chess_board)
-    #         result = self.engine.engine_turn(self.chess_board)
-    #         self.chess_board.push(result.move)
-    #         print(self.chess_board)
-    #     except chess.InvalidMoveError:
-    #         print("Cannot validate move from uci string...")
-    #
+    def move_uci(self, uci) -> bool:
+        try:
+            move = chess.Move.from_uci(uci)
+            if move in self.chess_board.legal_moves:
+                self.chess_board.push(move)
+                return False
+            else:
+                return True
+        except chess.InvalidMoveError:
+            print("Cannot validate move from uci string...")
+            return True
+
     # # Checking legal of mov and its result
     # def valid_move(self, move):
     #     if move in self.chess_board.legal_moves:

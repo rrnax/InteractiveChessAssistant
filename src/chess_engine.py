@@ -14,7 +14,7 @@ class ChessEngine:
     # Setting first attributes for engine
     def __init__(self, engine_name="stockfish", depth="20"):
         self.set_depth(depth)
-        asyncio.run(self.engine_selection(engine_name=engine_name))
+        self.engine_selection(engine_name=engine_name)
 
     # Setters
     def set_think_time(self, time_sec):
@@ -30,26 +30,26 @@ class ChessEngine:
         self.opponent = chess.engine.Opponent(name="user", title=title, rating=elo, is_engine=engine_opponent)
 
     # Engine selection or input
-    async def engine_selection(self, engine_name):
+    def engine_selection(self, engine_name):
         if engine_name == "stockfish":
             path = os.path.join('../engines/stockfish', 'stockfish-windows-x86-64.exe')
-            self.transport, self.engine = await chess.engine.popen_uci(path)
+            self.engine = chess.engine.SimpleEngine.popen_uci(path)
         elif engine_name == "lc0":
             print()
         self.set_opponent()
-        await self.engine.send_opponent_information(opponent=self.opponent)
+        self.engine.send_opponent_information(opponent=self.opponent)
         print("Ustaiwono silnik")
 
     def close_engine(self):
         self.engine.quit()
 
-    # def engine_turn(self, board):
-    #     if board is None:
-    #         return None
-    #     else:
-    #         result = self.engine.play(board, self.engine_limits)
-    #         print(result)
-    #         return result
+    def engine_move(self, board):
+        if board is None:
+            return None
+        else:
+            result = self.engine.play(board, self.engine_limits)
+            print(result)
+            return result.move
     #
     # async def move_analyze(self, chess_board):
     #     if self.engine_name == 'stockfish':
