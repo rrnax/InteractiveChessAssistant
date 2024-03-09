@@ -10,11 +10,15 @@ class ChessEngine:
     engine_limits = chess.engine.Limit()
     results_amount = None
     opponent = None
+    name = None
 
     # Setting first attributes for engine
     def __init__(self, engine_name="stockfish", depth="20"):
         self.set_depth(depth)
         self.engine_selection(engine_name=engine_name)
+
+    def __str__(self):
+        return self.name
 
     # Setters
     def set_think_time(self, time_sec):
@@ -36,6 +40,7 @@ class ChessEngine:
             self.engine = chess.engine.SimpleEngine.popen_uci(path)
         elif engine_name == "lc0":
             print()
+        self.name = engine_name
         self.set_opponent()
         self.engine.send_opponent_information(opponent=self.opponent)
         print("Ustaiwono silnik")
