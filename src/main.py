@@ -48,8 +48,11 @@ while True:
                 print("OD NOWA")
                 break
             elif decision2 == "4":
-                gra.game_turn()
-                continue
+                result = gra.game_turn()
+                if result:
+                    break
+                else:
+                    continue
             else:
                 print("Zły ruch jeszcze raz!")
 

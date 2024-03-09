@@ -32,7 +32,7 @@ class ChessEngine:
     # Engine selection or input
     def engine_selection(self, engine_name):
         if engine_name == "stockfish":
-            path = os.path.join('../engines/stockfish', 'stockfish-windows-x86-64.exe')
+            path = os.path.join(".\\engines\\stockfish", "stockfish-windows-x86-64.exe")
             self.engine = chess.engine.SimpleEngine.popen_uci(path)
         elif engine_name == "lc0":
             print()
