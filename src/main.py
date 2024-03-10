@@ -30,13 +30,16 @@ while True:
     decision = input("Co chcesz zrobić? ")
     gra = game.Game()
     if decision == "1":
-        print("No to gramy!")
-        decision3 = input("Wybierz kolor bierek 5 - biale, 6 - czarne")
-
-        if decision3 == "5":
-            gra.setup(game_type="simple", user_side="white")
-        elif decision3 == "6":
-            gra.setup(game_type="simple", user_side="black")
+        print("No to gramy!, Jaki typ gry: 7 - analiza, 8 - zwykla")
+        decision4 = input()
+        if decision4 == "7":
+            gra.setup()
+        elif decision4 == "8":
+            decision3 = input("Wybierz kolor bierek 5 - biale, 6 - czarne")
+            if decision3 == "5":
+                gra.setup(game_type="simple", user_side="white")
+            elif decision3 == "6":
+                gra.setup(game_type="simple", user_side="black")
         while True:
             print(menu2 + menu4 + menu3)
             decision2 = input()
@@ -58,7 +61,6 @@ while True:
 
     elif decision == "2":
         print("KONCZYMY")
-        gra.close()
         exit(0)
     else:
         continue

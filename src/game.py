@@ -1,5 +1,6 @@
 import chess
 import chess_engine
+import analyzer
 
 
 class Game:
@@ -10,6 +11,7 @@ class Game:
     game_type = None
     user_side = None
     using_engine = None
+    analyzer = None
 
     # Singleton for only one possible instance
     def __new__(cls):
@@ -41,7 +43,7 @@ class Game:
         self.user_side = user_side
 
         if self.game_type == "analyze":
-            print("Analiza")
+            self.analyzer = analyzer.Analyzer()
         else:
             self.using_engine = chess_engine.ChessEngine()
 

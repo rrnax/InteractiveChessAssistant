@@ -1,4 +1,5 @@
 import chess_engine
+import multiprocessing as mp
 
 
 class Analyzer:
@@ -9,11 +10,22 @@ class Analyzer:
     black_best_moves = []
     using_engine = None
 
-    # Class as singleton
+    # result_queue = mp.Queue()
+    # process_pool = mp.Pool()
+
     def __init__(self):
         self.using_engine = chess_engine.ChessEngine()
+        p1 = mp.Process(target=czwds, args=(10,))
+        p2 = mp.Process(target=czwds, args=(1,))
+
+        p1.start()
+        p2.start()
+
+        p1.join()
+        p2.join()
+
+        print("DONE")
 
 
-
-
-
+def czwds(lk):
+    print("result: ", lk * lk)
